@@ -131,7 +131,7 @@ blockchain = Blockchain()
 
 
 @app.route('/mine', methods=['POST'])
-def mine(request):
+def mine(request): #request
     # * Modify the `mine` endpoint to instead receive and validate or 
     # reject a new proof sent by a client.
     # It should accept a POST
@@ -139,10 +139,13 @@ def mine(request):
     # Note that `request` and `requests` both exist in this project
     # Check that 'proof', and 'id' are present
     # return a 400 error using `jsonify(response)` with a 'message'
+    print('fire up')
     data = request.get_json()
+    #data = json.loads(request.body)
+    print(data)
     if 'proof' in data.keys() and 'id' in data.keys():
         lastblock = blockchain.chain[-1]
-        if blockchain.valid_proof(lastblock, data['proof']):
+        if blockchain.valid_proof(lastblock, int(data['proof'])):
             response = {'message' : 'New Block Forged'}
             response_id = 200
         else:
@@ -156,7 +159,7 @@ def mine(request):
 
 @app.route('/last_block', methods=['GET'])
 def last():
-    response = blockchain.last_block()
+    response = blockchain.last_block
 
     return jsonify(response), 200
 

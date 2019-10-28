@@ -42,12 +42,15 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         node = sys.argv[1]
     else:
-        node = "http://localhost:5000"
+        #node = "http://localhost:5000"
+        node = 'http://127.0.0.1:5000'
+    #print(node)
 
     # Load ID
     f = open("dan_horsley.txt", "r")
     id = f.read()
     print("ID is", id)
+    print(type(id))
     f.close()
     mined_coins = 0
     # Run forever until interrupted
@@ -64,13 +67,15 @@ if __name__ == '__main__':
 
         # TODO: Get the block from `data` and use it to look for a new proof
         # new_proof = ???
-        my_new_block = requests.post(url=node + "/last_block")
+        my_new_block = requests.get(url=node + "/last_block").json()
         new_proof = proof_of_work(my_new_block)
 
         # When found, POST it to the server {"proof": new_proof, "id": id}
-        post_data = {"proof": new_proof, "id": id}
+        post_data = {"proof": str(new_proof), "id": id}
+        #print(post_data)
 
         r = requests.post(url=node + "/mine", json=post_data)
+        #print(r)
         data = r.json()
 
         # TODO: If the server responds with a 'message' 'New Block Forged'

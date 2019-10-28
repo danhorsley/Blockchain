@@ -156,6 +156,20 @@ def full_chain():
     }
     return jsonify(response), 200
 
+@app.route('/transactions/new', methods=['POST'])
+def new_t():
+    sender = request.remote_addr
+    # check that 'sender', 'recipient', and 'amount' are present
+    #  return a 400 error using `jsonify(response)` with a 'message'
+    # upon success, return a 'message' indicating index of the block
+    # containing the transaction
+    data = request.get_json()
+    if 'sender' in data.keys() and 'recipient' in data.keys() and 'amount' in data.keys():
+        index = str(blockchain.chain[-1]['index'])
+        return jsonify({'message' : index}),200
+    else:
+        return jsonify{'message' : 'missing json'},400
+
 
 # Run the program on port 5000
 if __name__ == '__main__':

@@ -4,6 +4,19 @@ import requests
 import sys
 import json
 
+# *Client Mining*
+# Create a client application that will:
+# * Get the last block from the server
+# * Run the `proof_of_work` function until a valid proof is found, validating or rejecting each attempt.  Use a copy of `valid_proof` to assist.
+# * Print messages indicating that this has started and finished.
+# * Modify it to generate proofs with *6* leading zeroes.
+# * Print a message indicating the success or failure response from the server
+# * Add any coins granted to a simple integer total, and print the amount of coins the client has earned
+# * Continue mining until the app is interrupted.
+# * Change the name in `my_id.txt` to your name
+# * (Stretch) Handle non-json responses sent by the server in the event of an error, without crashing the miner
+# * Stretch: Add a timer to keep track of how long it takes to find a proof
+
 
 def proof_of_work(block):
     """
@@ -13,7 +26,14 @@ def proof_of_work(block):
     in an effort to find a number that is a valid proof
     :return: A valid proof for the provided block
     """
-    pass
+    def proof_of_work(block):
+ 
+        stringify = json.dumps(block, sort_keys = True)
+        proof_guess = 0
+        while valid_proof(stringify, proof_guess) is False:
+            proof_guess += 1
+            
+        return proof_guess
 
 
 def valid_proof(block_string, proof):
@@ -27,7 +47,10 @@ def valid_proof(block_string, proof):
     correct number of leading zeroes.
     :return: True if the resulting hash is a valid proof, False otherwise
     """
-    pass
+        new_string = (block_string + str(proof)).encode()
+        hash_try = hashlib.sha256(new_string).hexdigest()
+
+        return hash_try[:6] == '000000'
 
 
 if __name__ == '__main__':

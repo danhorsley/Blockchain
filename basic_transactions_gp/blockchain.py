@@ -119,6 +119,14 @@ class Blockchain(object):
         
         return hash_try[:3] == '000'
 
+    def new_transaction(self,sender_add,receiver_add, amount):
+        
+        new_transaction = {'sender': sender_add,
+                            'recipient': receiver_add,
+                            'amount': amount,
+                            'index':self.chain[-1]['index']}
+        self.current_transactions.append(new_transaction)
+
 
 # Instantiate our Node
 app = Flask(__name__)

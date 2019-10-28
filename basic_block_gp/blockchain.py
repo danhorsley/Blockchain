@@ -30,16 +30,19 @@ class Blockchain(object):
         :return: <dict> New Block
         """
 
-        block = {
-            # TODO
-        }
+        block = {'index' : len(self.chain) + 1,'time' : time(), 'current_transactions': self.current_transactions, 
+                 'proof' : proof, 'previous_hash' : previous_hash}
+    
 
         # Reset the current list of transactions
         # Append the chain to the block
         # Return the new block
-        pass
+        self.current_transactions = []
+        self.chain.append(block)
+        
+        return block
 
-    def hash(block):
+    def hash(self,block):
         """
         Creates a SHA-256 hash of a Block
 
@@ -66,7 +69,12 @@ class Blockchain(object):
         # easier to work with and understand
 
         # TODO: Return the hashed block string in hexadecimal format
-        pass
+        block = json.dumps(block, sort_keys = True).encode()
+        my_hash = hashlib.sha224(block).hexdigest()
+       
+        
+        
+        return my_hash
 
     @property
     def last_block(self):
@@ -81,8 +89,15 @@ class Blockchain(object):
         :return: A valid proof for the provided block
         """
         # TODO
-        pass
-        # return proof
+        stringify = json.dumps(block, sort_keys = True)
+        proof_guess = 0
+        while self.valid_proof(stringify, proof_guess) is False:
+          proof_guess += 1
+          
+        return proof_guess
+
+          
+          
 
     @staticmethod
     def valid_proof(block_string, proof):
@@ -96,9 +111,10 @@ class Blockchain(object):
         correct number of leading zeroes.
         :return: True if the resulting hash is a valid proof, False otherwise
         """
-        # TODO
-        pass
-        # return True or False
+        new_string = (block_string + str(proof)).encode()
+        hash_try = hashlib.sha256(new_string).hexdigest()
+        
+        return hash_try[:6] == '000000'
 
 
 # Instantiate our Node

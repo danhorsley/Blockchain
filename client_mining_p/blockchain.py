@@ -143,13 +143,13 @@ def mine(request):
     if 'proof' in data.keys() and 'id' in data.keys():
         lastblock = blockchain.chain[-1]
         if blockchain.valid_proof(lastblock, data['proof']):
-            response = 'validated'
+            response = {'message' : 'New Block Forged'}
             response_id = 200
         else:
-            response = 'incorrect proof'
+            response = {'message' : 'incorrect proof'}
             response_id = 400
     else:
-        response = 'proof or id not included'
+        response = {'message' : 'proof or id not included'}
         response_id = 400
 
     return jsonify(response), response_id
@@ -170,4 +170,4 @@ def full_chain():
 
 # Run the program on port 5000
 if __name__ == '__main__':
-    app.run()#host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000)

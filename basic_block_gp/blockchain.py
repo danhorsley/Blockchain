@@ -39,6 +39,7 @@ class Blockchain(object):
         # Return the new block
         self.current_transactions = []
         self.chain.append(block)
+        self.new_block = block
         
         return block
 
@@ -130,20 +131,18 @@ blockchain = Blockchain()
 @app.route('/mine', methods=['GET'])
 def mine():
     # Run the proof of work algorithm to get the next proof
-
+    current_block = blockchain.new_block
+    my_hash = blockchain.hash(current_block)
     # Forge the new Block by adding it to the chain with the proof
-
-    response = {
-        # TODO: Send a JSON response with the new block
-    }
+    p_o_w = blockchain.proof_of_work(current_block)
+    response = blockchain.new_block(p_o_w, my_hash)
 
     return jsonify(response), 200
 
 
 @app.route('/chain', methods=['GET'])
 def full_chain():
-    response = {
-        # TODO: Return the chain and its current length
+    response = {'chain': blockchain.chain, 'length' :len(blockchain.chain)
     }
     return jsonify(response), 200
 

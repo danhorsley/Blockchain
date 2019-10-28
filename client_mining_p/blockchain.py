@@ -117,7 +117,7 @@ class Blockchain(object):
         new_string = (block_string + str(proof)).encode()
         hash_try = hashlib.sha256(new_string).hexdigest()
         
-        return hash_try[:3] == '000'
+        return hash_try[:6] == '000000'
 
 
 # Instantiate our Node
@@ -131,21 +131,16 @@ blockchain = Blockchain()
 
 
 @app.route('/mine', methods=['POST'])
-def mine(request): #request
-    # * Modify the `mine` endpoint to instead receive and validate or 
-    # reject a new proof sent by a client.
-    # It should accept a POST
-    # Use `data = request.get_json()` to pull the data out of the POST
-    # Note that `request` and `requests` both exist in this project
-    # Check that 'proof', and 'id' are present
-    # return a 400 error using `jsonify(response)` with a 'message'
-    print('fire up')
+def mine():#request): 
+    #print('fire up')
     data = request.get_json()
-    #data = json.loads(request.body)
-    print(data)
+    #print(data)
     if 'proof' in data.keys() and 'id' in data.keys():
-        lastblock = blockchain.chain[-1]
-        if blockchain.valid_proof(lastblock, int(data['proof'])):
+        lastblockstring = json.dumps(blockchain.chain[-1], sort_keys = True)
+        
+        if blockchain.valid_proof(lastblockstring, int(data['proof'])):
+            prevhash = blockchain.hash(blockchain.chain[-1])
+            blockchain.new_block(int(data['proof']),prevhash)
             response = {'message' : 'New Block Forged'}
             response_id = 200
         else:

@@ -34,7 +34,7 @@ def valid_proof(block_string, proof):
     new_string = (block_string + str(proof)).encode()
     hash_try = hashlib.sha256(new_string).hexdigest()
 
-    return hash_try[:3] == '000'
+    return hash_try[:6] == '000000'
 
 
 if __name__ == '__main__':
@@ -71,7 +71,7 @@ if __name__ == '__main__':
         new_proof = proof_of_work(my_new_block)
 
         # When found, POST it to the server {"proof": new_proof, "id": id}
-        post_data = {"proof": str(new_proof), "id": id}
+        post_data = {'proof': str(new_proof), 'id': id}
         #print(post_data)
 
         r = requests.post(url=node + "/mine", json=post_data)

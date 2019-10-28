@@ -39,7 +39,7 @@ class Blockchain(object):
         # Return the new block
         self.current_transactions = []
         self.chain.append(block)
-        self.new_block = block
+        #self.new_block = block
         
         return block
 
@@ -115,7 +115,7 @@ class Blockchain(object):
         new_string = (block_string + str(proof)).encode()
         hash_try = hashlib.sha256(new_string).hexdigest()
         
-        return hash_try[:6] == '000000'
+        return hash_try[:3] == '000'
 
 
 # Instantiate our Node
@@ -131,7 +131,7 @@ blockchain = Blockchain()
 @app.route('/mine', methods=['GET'])
 def mine():
     # Run the proof of work algorithm to get the next proof
-    current_block = blockchain.new_block
+    current_block = blockchain.chain[-1]
     my_hash = blockchain.hash(current_block)
     # Forge the new Block by adding it to the chain with the proof
     p_o_w = blockchain.proof_of_work(current_block)
@@ -149,4 +149,4 @@ def full_chain():
 
 # Run the program on port 5000
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run()#host='0.0.0.0', port=5000)

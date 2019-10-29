@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<title>{% block title %}{% endblock %}cozyourebasic</title>
+<link rel="stylesheet" href="https://unpkg.com/picnic">
+<style type="text/css" media="screen">
+.bespokebutton {
+    background: #D0D3D4;
+}
+body {
+      background-color: #C0C0C0;
+    }
+</style>
+<body>
+<button class="bespokebutton">waving an arm in your face clicking fingers</button>
+  <article class="card">
+  <header>
+    <h3>coz you're basic...wallet app</h3>
+  </header>
+
+  <button class="bespokebutton">information for ID {{newid}}</button>
+  <button class="bespokebutton">total balance is {{total_amt}}</button>
+  <ul>
+    {% for item in allt %}
+        <li>{{item}}</li>
+    
+    {% endfor %}
+    </ul>
+ 
+</article>
+  
+</body>

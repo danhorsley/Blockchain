@@ -104,7 +104,7 @@ def mine():#request):
             prevhash = blockchain.hash(blockchain.chain[-1])
             blockchain.new_block(int(data['proof']),prevhash)
             response = {'message' : 'New Block Forged'}
-            reward = blockchain.new_transaction('0',request.remote_addr,'1')
+            reward = blockchain.new_transaction('0',data['id'],'1')  #request.remote_addr
             node = 'http://127.0.0.1:5000'
             requests.post(url=node + "/transactions/new", json=reward)
             response_id = 200

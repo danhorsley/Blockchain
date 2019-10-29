@@ -69,13 +69,13 @@ if __name__ == '__main__':
         # new_proof = ???
         my_new_block = requests.get(url=node + "/last_block").json()
         new_proof = proof_of_work(my_new_block)
-        print('new_proof debug',new_proof)
+        #print('new_proof debug',new_proof)
         # When found, POST it to the server {"proof": new_proof, "id": id}
         post_data = {'proof': str(new_proof), 'id': id}
         #print(post_data)
 
         r = requests.post(url=node + "/mine", json=post_data)
-        print('DEBUGGER',r)
+        #print('DEBUGGER',r)
         data = r.json()
 
         # TODO: If the server responds with a 'message' 'New Block Forged'

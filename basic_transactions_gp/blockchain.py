@@ -168,7 +168,7 @@ def new_t():
         index = str(blockchain.chain[-1]['index'])
         return jsonify({'message' : index}),200
     else:
-        return jsonify{'message' : 'missing json'},400
+        return jsonify({'message' : 'missing json'}),400
 
 
 # Run the program on port 5000
